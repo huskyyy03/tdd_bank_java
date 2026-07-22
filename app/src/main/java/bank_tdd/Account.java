@@ -9,6 +9,7 @@ import java.util.List;
 public class Account {
   private int balance;
   private List<String> depositHistory = new ArrayList<>();
+  private List<String> withdrawHistory  = new ArrayList<>();
 
   public Account() {
     this.balance = 0;
@@ -20,6 +21,10 @@ public class Account {
 
   public List<String> getDepositHistory() {
     return depositHistory;
+  }
+
+  public List<String> getWithdrawHistory() {
+    return withdrawHistory;
   }
 
   public void deposit(int amount) {
@@ -35,9 +40,10 @@ public class Account {
       throw new IllegalArgumentException("残高が不足しています");
     }
     balance -= amount;
+    withdrawHistory.add("出金額: " + amount + "円");
   }
 
-  public void transfer(Account transferTo ,int amount) {
+  public void transfer(Account transferTo, int amount) {
     this.withdraw(amount);
     transferTo.deposit(amount);
   }

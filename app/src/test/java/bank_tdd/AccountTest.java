@@ -87,6 +87,7 @@ public class AccountTest {
     Account account = new Account();
 
     account.deposit(1000);
+
     assertEquals(List.of("入金額: 1000円"), account.getDepositHistory());
   }
 
@@ -97,7 +98,29 @@ public class AccountTest {
     account.deposit(1000);
     account.deposit(1000);
     account.deposit(1000);
-    
+
     assertEquals(List.of("入金額: 1000円", "入金額: 1000円", "入金額: 1000円"), account.getDepositHistory());
+  }
+
+  @Test
+  void 出金履歴を記録できる() {
+    Account account = new Account();
+
+    account.deposit(1000);
+    account.withdraw(1000);
+
+    assertEquals(List.of("出金額: 1000円"), account.getWithdrawHistory());
+  }
+
+  @Test
+  void 複数回出金した履歴を取得できる() {
+    Account account = new Account();
+
+    account.deposit(3000);
+    account.withdraw(1000);
+    account.withdraw(1000);
+    account.withdraw(1000);
+
+    assertEquals(List.of("出金額: 1000円", "出金額: 1000円", "出金額: 1000円"), account.getWithdrawHistory());
   }
 }
