@@ -1,10 +1,14 @@
 package bank_tdd;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Account
  */
 public class Account {
   private int balance;
+  private List<String> depositHistory = new ArrayList<>();
 
   public Account() {
     this.balance = 0;
@@ -14,8 +18,8 @@ public class Account {
     return balance;
   }
 
-  public String getDepositHistory() {
-    return "入金額: 1000円";
+  public List<String> getDepositHistory() {
+    return depositHistory;
   }
 
   public void deposit(int amount) {
@@ -23,6 +27,7 @@ public class Account {
       throw new IllegalArgumentException();
     }
     balance += amount;
+    depositHistory.add("入金額: " + amount + "円");
   }
 
   public void withdraw(int amount) {

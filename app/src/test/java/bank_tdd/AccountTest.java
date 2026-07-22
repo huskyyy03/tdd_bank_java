@@ -3,6 +3,8 @@ package bank_tdd;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 public class AccountTest {
@@ -85,7 +87,17 @@ public class AccountTest {
     Account account = new Account();
 
     account.deposit(1000);
+    assertEquals(List.of("入金額: 1000円"), account.getDepositHistory());
+  }
 
-    assertEquals(["入金額: 1000円"], account.getDepositHistory());
+  @Test
+  void 複数回入金した履歴を取得できる() {
+    Account account = new Account();
+
+    account.deposit(1000);
+    account.deposit(1000);
+    account.deposit(1000);
+    
+    assertEquals(List.of("入金額: 1000円", "入金額: 1000円", "入金額: 1000円"), account.getDepositHistory());
   }
 }
