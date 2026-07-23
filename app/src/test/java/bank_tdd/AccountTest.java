@@ -58,8 +58,8 @@ public class AccountTest {
   void 残高不足で出金すると例外() {
     Account account = new Account();
 
-    IllegalArgumentException e =
-      assertThrows(IllegalArgumentException.class, () -> account.withdraw(500));
+    IllegalStateException e =
+      assertThrows(IllegalStateException.class, () -> account.withdraw(500));
     assertEquals("残高が不足しています", e.getMessage());
   }
 
@@ -68,6 +68,14 @@ public class AccountTest {
     Account account = new Account();
 
     assertThrows(IllegalArgumentException.class, () -> account.deposit(-500));
+  }
+
+  @Test
+  void マイナス出金は例外() {
+    Account account = new Account();
+
+    account.deposit(600);
+    assertThrows(IllegalArgumentException.class, () -> account.withdraw(-500));
   }
 
   @Test
@@ -123,4 +131,23 @@ public class AccountTest {
 
     assertEquals(List.of("出金額: 1000円", "出金額: 1000円", "出金額: 1000円"), account.getWithdrawHistory());
   }
+
+  @Test
+  void 他口座へ振込する際同一口座の場合は例外() {
+    Account account = new Account();
+
+    account.deposit(1000);
+
+    assertThrows(IllegalArgumentException.class, () -> account.transfer(account, 100));
+  }
+
+  @Test
+  void 他口座へ振込する際振込先がnullの場合は例外() {
+    Account account = new Account();
+
+    account.deposit(1000);
+
+    assertThrows(IllegalArgumentException.class, () -> account.transfer(null, 100));
+  }
+
 }
